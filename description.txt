@@ -1,0 +1,3 @@
+main1 - find people in folder
+main2 - makeuo for detect face
+main3 - show face
