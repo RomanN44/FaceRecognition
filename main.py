@@ -32,27 +32,48 @@ from PIL import Image, ImageDraw
 # results = face_recognition.compare_faces([roman_face_encoding], unknown_face_encoding[0])
 # print(results)
 
-image = face_recognition.load_image_file(f"photos/6.jpg")
-face_landmarks_list = face_recognition.face_landmarks(image)
-pil_image = Image.fromarray(image)
-pil_image = Image.new("RGB", (image.shape[0],image.shape[1]), (255, 255, 255))
-for face_landmarks in face_landmarks_list:
-    d = ImageDraw.Draw(pil_image, 'RGBA')
-    # Make the eyebrows into a nightmare
+# image = face_recognition.load_image_file("photos/6.jpg")
+# face_landmarks_list = face_recognition.face_landmarks(image)
+# pil_image = Image.fromarray(image)
+# pil_image = Image.new("RGB", (image.shape[0],image.shape[1]), (255, 255, 255))
+# for face_landmarks in face_landmarks_list:
+#     d = ImageDraw.Draw(pil_image, 'RGBA')
+#     # Make the eyebrows into a nightmare
+#
+#     # d.point(face_landmarks['chin'], fill=(0,0,0))
+#     # d.point(face_landmarks['left_eyebrow'], fill=(0,0,0))
+#     # d.point(face_landmarks['right_eyebrow'], fill=(0,0,0))
+#     # d.point(face_landmarks['nose_bridge'], fill=(0,0,0))
+#     # d.point(face_landmarks['nose_tip'], fill=(0,0,0))
+#     # d.point(face_landmarks['left_eye'], fill=(0,0,0))
+#     # d.point(face_landmarks['right_eye'], fill=(0,0,0))
+#     # d.point(face_landmarks['top_lip'], fill=(0,0,0))
+#     # d.point(face_landmarks['bottom_lip'], fill=(0,0,0))
+#
+#     d.line(face_landmarks['chin'], fill=(0,0,0))
+#     d.line(face_landmarks['left_eyebrow'], fill=(0,0,0))
+#     d.line(face_landmarks['right_eyebrow'], fill=(0,0,0))
+#     d.line(face_landmarks['nose_bridge'], fill=(0,0,0))
+#     d.line(face_landmarks['nose_tip'], fill=(0,0,0))
+#     d.line(face_landmarks['left_eye'], fill=(0,0,0))
+#     d.line(face_landmarks['right_eye'], fill=(0,0,0))
+#     d.line(face_landmarks['top_lip'], fill=(0,0,0))
+#     d.line(face_landmarks['bottom_lip'], fill=(0,0,0))
+#
+#     pil_image.show()
 
-    d.point(face_landmarks['chin'], fill=(0,0,0))
-    # d.ellipse(face_landmarks['chin'], fill='blue', outline='blue')
+image = face_recognition.load_image_file("photos/6.jpg")
+face_locations = face_recognition.face_locations(image)
 
-    for f in face_landmarks['chin']:
-        d.ellipse((f, 180, 180), fill='blue', outline='blue')
+print("I found {} face(s) in this photograph.".format(len(face_locations)))
 
-    # d.point(face_landmarks['left_eyebrow'], fill=(0,0,0))
-    # d.point(face_landmarks['right_eyebrow'], fill=(0,0,0))
-    # d.point(face_landmarks['nose_bridge'], fill=(0,0,0))
-    # d.point(face_landmarks['nose_tip'], fill=(0,0,0))
-    # d.point(face_landmarks['left_eye'], fill=(0,0,0))
-    # d.point(face_landmarks['right_eye'], fill=(0,0,0))
-    # d.point(face_landmarks['top_lip'], fill=(0,0,0))
-    # d.point(face_landmarks['bottom_lip'], fill=(0,0,0))
+for face_location in face_locations:
 
+    # Print the location of each face in this image
+    top, right, bottom, left = face_location
+    print("A face is located at pixel location Top: {}, Left: {}, Bottom: {}, Right: {}".format(top, left, bottom, right))
+
+    # You can access the actual face itself like this:
+    face_image = image[top:bottom, left:right]
+    pil_image = Image.fromarray(face_image)
     pil_image.show()
